@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aayan Webdev | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES & THEME --- */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-blue: #1e293b;
+            --accent-blue: #3b82f6; /* Bright Blue */
+            --accent-glow: #60a5fa;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-glass: rgba(30, 41, 59, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            /* Dynamic Background to fix "Empty" feel */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 40%);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- ANIMATIONS --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 5%;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Background glow for Hero */
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent-blue);
+            filter: blur(150px);
+            border-radius: 50%;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+        }
+
+        /* --- SECTIONS COMMON --- */
+        section {
+            padding: 80px 10%;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+        }
+
+        .section-header span {
+            color: var(--accent-blue);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        /* --- ABOUT & SKILLS --- */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .glass-card {
+            background: var(--card-glass);
+            border: 1px solid var(--border-glass);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .skills-wrap {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .skill-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .certificate-img {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        /* --- SERVICES (BLUE CARDS) --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 1px solid var(--border-glass);
+            padding: 40px 30px;
+            border-radius: 20px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        /* --- PORTFOLIO --- */
+        .project-card {
+            background: var(--bg-blue);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-glass);
+            transition: 0.3s;
+        }
+
+        .project-card:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-blue);
+        }
+
+        .project-content {
+            padding: 30px;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 20px;
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* --- CONTACT --- */
+        .contact-box {
+            background: linear-gradient(to right, #1e293b, #0f172a);
+            padding: 60px;
+            border-radius: 30px;
+            text-align: center;
+            border: 1px solid var(--border-glass);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-email {
+            font-size: 2rem;
+            color: var(--accent-blue);
+            font-weight: 700;
+            margin: 30px 0;
+            display: block;
+            word-break: break-all;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            color: white;
+            transition: 0.3s;
+            margin: 10px;
+        }
+
+        .social-btn:hover {
+            background: var(--accent-blue);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .about-container { grid-template-columns: 1fr; }
+            .contact-email { font-size: 1.5rem; }
+            nav { padding: 20px; }
+            .nav-links { display: none; } /* Simplified for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Aayan.Dev</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#portfolio">Work</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="fade-in">
+            <h1>Web Design<br>Problem Solver</h1>
+            <p>I redesign broken websites and build high-converting landing pages. Professional, clean, and fast.</p>
+            <a href="#contact" class="btn-primary">Let's Talk</a>
+        </div>
+    </section>
+
+    <section id="about" class="fade-in">
+        <div class="section-header">
+            <span>Profile</span>
+            <h2>Who is Aayan?</h2>
+        </div>
+        <div class="about-container">
+            <div class="glass-card">
+                <div class="about-text">
+                    <p>I am a focused web developer who simplifies the complex. Instead of confusing code, I provide clean solutions. I specialize in building one-page websites that are easy to use and look great on phones and computers.</p>
+                    <p>Recently certified by Webtech Inc, I have the technical skills to back up my designs.</p>
+                </div>
+                <div class="skills-wrap">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">Landing Pages</span>
+                    <span class="skill-tag">Problem Solving</span>
+                    <span class="skill-tag">Responsive Design</span>
+                </div>
+            </div>
+            
+            <div class="certificate-wrapper fade-in">
+                <img src="file:///C:/Users/Aayan%20Irfan/Downloads/Gold%20Brown%20Elegant%20Certificate%20Of%20Appreciation.png" alt="Aayan Irfan Certificate" class="certificate-img">
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="fade-in">
+        <div class="section-header">
+            <span>Pricing</span>
+            <h2>What I Do</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-laptop-code service-icon"></i>
+                <h3>Landing Page</h3>
+                <p>Perfect for selling a product or capturing emails. Fast loading and designed to convert visitors.</p>
+                <span class="price-tag">$200 USD</span>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-sync-alt service-icon"></i>
+                <h3>Website Redesign</h3>
+                <p>I will take your old, messy website and make it modern, clean, and professional.</p>
+                <span class="price-tag">$300 USD</span>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-cubes service-icon"></i>
+                <h3>Complete One Page</h3>
+                <p>A fully custom single-page website with animations, maps, and advanced layout.</p>
+                <span class="price-tag">$500 USD</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="fade-in">
+        <div class="section-header">
+            <span>Portfolio</span>
+            <h2>Recent Work</h2>
+        </div>
+        <div class="services-grid"> <div class="project-card">
+                <div class="project-content">
+                    <h3>TaskEarn US</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">A functional platform for task management and earning. Focus on clean UI and logic.</p>
+                    <a href="https://taskearn-us.netlify.app/" target="_blank" class="project-link">
+                        View Live Site <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <h3>New York Fitness</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">High-energy landing page for a fitness brand. Responsive layout with visual impact.</p>
+                    <a href="https://newyork-fitness.netlify.app/" target="_blank" class="project-link">
+                        View Live Site <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="fade-in">
+        <div class="contact-box">
+            <h2>Ready to start?</h2>
+            <p style="color: var(--text-secondary); margin-top: 10px;">I am currently available for freelance work.</p>
+            
+            <a href="mailto:aayanirfank@gmail.com" class="contact-email">aayanirfank@gmail.com</a>
+            
+            <div class="socials">
+                <a href="#" class="social-btn">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="mailto:aayanirfank@gmail.com" class="social-btn">
+                    <i class="fas fa-envelope"></i> Email Me
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 40px; color: var(--text-secondary); font-size: 0.8rem; border-top: 1px solid var(--border-glass);">
+        <p>&copy; 2026 Aayan Webdev. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Scroll Animation Logic
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
